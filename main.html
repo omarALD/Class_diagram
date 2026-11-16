@@ -25,35 +25,31 @@ button i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-ri
 #leg{bottom:calc(12px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);padding:8px 14px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font:500 12px "JetBrains Mono",Consolas,monospace;color:var(--mute);max-width:calc(100% - 28px)}
 #leg b{color:var(--ink)}
 #hint{bottom:calc(64px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);padding:5px 12px;color:var(--mute);font-size:12px;white-space:nowrap}
-@media (max-width:760px){#nav{display:none}#hint{display:none}.s.d{display:none}}
+@media (max-width:760px){#head{top:calc(8px + env(safe-area-inset-top,0px));left:8px;right:8px;max-width:none;padding:7px 12px}h1{font-size:17px;margin:0}.s.d{display:none}#nav{flex-direction:row;top:auto;left:8px;right:8px;bottom:calc(52px + env(safe-area-inset-bottom,0px));max-height:none;overflow-x:auto;overflow-y:hidden;padding:5px;gap:4px;-webkit-overflow-scrolling:touch}#nav button{white-space:nowrap;flex:none;padding:10px 13px;font-size:13px}#info{top:auto;left:8px;right:8px;width:auto;bottom:calc(104px + env(safe-area-inset-bottom,0px));max-height:40%;padding:10px 12px}#info h2{font-size:19px}#info code{font-size:11px}#leg{bottom:calc(8px + env(safe-area-inset-bottom,0px));left:8px;right:8px;transform:none;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:12px;padding:7px 12px;font-size:11px;max-width:none;white-space:nowrap}#hint{top:calc(56px + env(safe-area-inset-top,0px));bottom:auto;font-size:11px;white-space:normal;text-align:center;width:max-content;max-width:calc(100% - 16px)}}
 </style></head><body>
 <canvas id="c" aria-label="3D UML class diagram"></canvas>
-<div class="p" id="head"><h1>Campus Maintenance Request Manager</h1><div class="s d">UML class diagram as a 3D city: every class is a tower, every member a floor.</div></div>
+<div class="p" id="head"><h1>Campus Maintenance Request Manager</h1><div class="s d">Binary-tree design: 4 classes + 1 interface. Every class is a tower, every member a floor.</div></div>
 <div class="p" id="nav"></div>
 <div class="p" id="info" hidden></div>
 <div class="p" id="hint">Drag to orbit · right-drag or Shift to pan · scroll to zoom · click a tower</div>
-<div class="p" id="leg"><span><b>◆</b> composition</span><span><b>◇</b> aggregation</span><span><b>⊕</b> nested</span><span><b>▶</b> association</span><span><b>┄▶</b> dependency</span><span><b>┄▷</b> implements</span></div>
+<div class="p" id="leg"><span><b>◆</b> composition</span><span><b>◇</b> aggregation</span><span><b>▶</b> association</span><span><b>┄▶</b> dependency</span><span><b>┄▷</b> implements</span></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s),T=THREE;
 const W=9,DP=3.4,HH=1.3,MH=.56,GAP=.05;
 const CL=[
-{id:"Main",pos:[-30,12],col:"#5aa9ff",a:["- manager: RequestManager","- scanner: Scanner"],m:["+ {static} main(args: String[]): void","- showMenu(): void","- handleAdd(): void","- handleSearch(): void","- handleDisplayPending(): void","- handleProcessNext(): void","- handleExit(): void","- readNonBlank(prompt: String): String","- readIntInRange(prompt: String, min: int, max: int): int"]},
-{id:"FileStorageManager",pos:[-30,-14],col:"#2dd4bf",a:["- {static} FILE_NAME: String"],m:["+ {static} save(manager: RequestManager): boolean","+ {static} load(): RequestManager"]},
-{id:"RequestManager",pos:[0,-2],col:"#ff6b57",a:["- allRequests: MaintenanceRequest[]","- count: int","- nextId: int","- {transient} queues: LinkedQueue[3]"],m:["+ RequestManager()","+ addRequest(location: String, desc: String, priority: int): int","+ searchById(id: int): MaintenanceRequest","+ displayPending(): void","+ processNext(): MaintenanceRequest","+ rebuildQueues(): void","- ensureCapacity(): void"]},
-{id:"LinkedQueue",tag:"High",cap:"#ff4d5a",pos:[28,-12],col:"#a78bfa",a:["- head: Node","- tail: Node","- size: int"],m:["+ enqueue(r: MaintenanceRequest): void","+ dequeue(): MaintenanceRequest","+ peek(): MaintenanceRequest","+ isEmpty(): boolean","+ displayAll(): void"]},
-{id:"LinkedQueue",tag:"Medium",cap:"#ffb02e",pos:[28,-1],col:"#a78bfa",a:["- head: Node","- tail: Node","- size: int"],m:["+ enqueue(r: MaintenanceRequest): void","+ dequeue(): MaintenanceRequest","+ peek(): MaintenanceRequest","+ isEmpty(): boolean","+ displayAll(): void"]},
-{id:"LinkedQueue",tag:"Low",cap:"#4ade80",pos:[28,10],col:"#a78bfa",a:["- head: Node","- tail: Node","- size: int"],m:["+ enqueue(r: MaintenanceRequest): void","+ dequeue(): MaintenanceRequest","+ peek(): MaintenanceRequest","+ isEmpty(): boolean","+ displayAll(): void"]},
-{id:"LinkedQueue.Node",pos:[56,-1],col:"#f0abfc",a:["- data: MaintenanceRequest","- next: Node"],m:[]},
-{id:"MaintenanceRequest",pos:[32,30],col:"#bef264",a:["- requestId: int","- location: String","- description: String","- priority: int","- completed: boolean"],m:["+ getRequestId(): int","+ getLocation(): String","+ getDescription(): String","+ getPriority(): int","+ isCompleted(): boolean","+ getStatus(): String","+ markCompleted(): void","+ toString(): String"]},
+{id:"Main",sub:"console menu",pos:[-30,0],col:"#5aa9ff",a:["- {static} in: Scanner","- {static} manager: RequestManager"],m:["+ {static} main(args: String[]): void","- {static} addRequest(): void","- {static} searchRequest(): void","- {static} processNext(): void","- {static} exit(): boolean","- {static} readNonBlank(prompt: String): String","- {static} readInt(prompt: String): int"]},
+{id:"RequestManager",sub:"controller · save / load",pos:[0,0],col:"#ff6b57",a:["- {static} FILE_NAME: String","- allRequests: MaintenanceRequest[]","- count: int","- nextId: int","- {transient} pending: PendingTree"],m:["+ addRequest(location: String, description: String, priority: int): int","+ searchById(id: int): MaintenanceRequest","+ displayPending(): void","+ processNext(): MaintenanceRequest","- grow(): void","- rebuildPending(): void","+ save(): boolean","+ {static} load(): RequestManager"]},
+{id:"PendingTree",sub:"binary search tree",pos:[30,-10],col:"#a78bfa",a:["- root: Node"],m:["+ isEmpty(): boolean","+ insert(r: MaintenanceRequest): void","+ removeMin(): MaintenanceRequest","+ displayInOrder(): void","- insert(node: Node, r: MaintenanceRequest): Node","- inOrder(node: Node): void"]},
+{id:"MaintenanceRequest",sub:"data object",pos:[30,16],col:"#bef264",a:["- requestId: int","- location: String","- description: String","- priority: int","- completed: boolean"],m:["+ getRequestId(): int","+ getPriority(): int","+ isCompleted(): boolean","+ markCompleted(): void","+ getStatus(): String","+ getPriorityName(): String","+ compareOrder(other: MaintenanceRequest): int","+ toString(): String"]},
 {id:"Serializable",st:"interface",pos:[0,-26],col:"#e6e9ff",a:[],m:[]}
 ];
-const RL=[[2,8,"real"],[7,8,"real"],[0,2,"assoc"],[0,1,"dep"],[1,2,"dep","serialize / deserialize"],[2,3,"comp","High"],[2,4,"comp","Medium"],[2,5,"comp","Low"],[2,7,"agg","0..*  allRequests[]"],[3,6,"nest"],[4,6,"nest"],[5,6,"nest"],[6,7,"agg"]];
+const RL=[[1,4,"real"],[3,4,"real"],[0,1,"assoc"],[1,2,"comp","pending"],[1,3,"agg","0..*  allRequests[]"],[2,3,"agg","stores pending"]];
 const SY={comp:"◆──",agg:"◇──",assoc:"──▶",dep:"┄┄▶",real:"┄┄▷",nest:"⊕──"};
 const nm=c=>c.id+(c.tag?" ("+c.tag+")":"");
 
-const cv=$("#c"),R=new T.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.outputEncoding=T.sRGBEncoding;
+const cv=$("#c"),R=new T.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio||1,innerWidth<761?1.5:2));R.outputEncoding=T.sRGBEncoding;
 const sc=new T.Scene();sc.background=new T.Color(0x0b0d16);sc.fog=new T.Fog(0x0b0d16,90,260);
 const cam=new T.PerspectiveCamera(50,1,.1,600);
 sc.add(new T.HemisphereLight(0xb8c4ff,0x201830,.9));const dl=new T.DirectionalLight(0xffffff,.8);dl.position.set(-30,60,40);sc.add(dl);
@@ -81,7 +77,7 @@ function buildTowers(){
     const col=c.col;
     const pl=new T.Mesh(new T.BoxGeometry(W+1,.25,DP+1),new T.MeshStandardMaterial({color:mix(col,.7),emissive:col,emissiveIntensity:.15}));pl.position.y=.12;g.add(pl);
     const gl=new T.Mesh(new T.PlaneGeometry(W*2.4,DP*3.6),new T.MeshBasicMaterial({map:glowT,color:col,transparent:true,opacity:.35,blending:T.AdditiveBlending,depthWrite:false}));gl.rotation.x=-Math.PI/2;gl.position.y=.03;g.add(gl);
-    y-=HH;slab(g,c,c.id==="LinkedQueue.Node"?"Node":c.id,HH,y,col,"#0b0d16","800 52px 'Bricolage Grotesque',sans-serif",c.st?"«"+c.st+"»":(c.tag?"priority queue · "+c.tag:(c.id==="LinkedQueue.Node"?"inner class of LinkedQueue":"class")));
+    y-=HH;slab(g,c,c.id,HH,y,col,"#0b0d16","800 52px 'Bricolage Grotesque',sans-serif",c.st?"«"+c.st+"»":(c.sub||"class"));
     if(c.cap){const cp=new T.Mesh(new T.BoxGeometry(W+.2,.14,DP+.2),new T.MeshBasicMaterial({color:c.cap}));cp.position.y=H+.07;g.add(cp)}
     y-=GAP;
     for(const s of c.a){y-=MH;slab(g,c,s.replace("{static} ","").replace("{transient} ",""),MH,y,mix(col,.72).getStyle(),"#e8ecff","600 27px 'JetBrains Mono',monospace",null,s.includes("{static}"));if(s.includes("{transient}"))g.children[g.children.length-1].userData.tr=1;y-=GAP}
@@ -119,10 +115,10 @@ function lbl(t){const w=Math.max(160,t.length*17+40);const tx=cnv(w,48,(x,w,h)=>
   const s=new T.Sprite(new T.SpriteMaterial({map:tx,depthWrite:false,fog:false}));s.scale.set(w/48*1.5,1.5,1);return s}
 
 /* camera */
-const S={t:new T.Vector3(14,4,4),r:92,th:.55,ph:1.02};let tw=null,auto=true;
-function put(){const{t,r,th,ph}=S;cam.position.set(t.x+r*Math.sin(ph)*Math.sin(th),t.y+r*Math.cos(ph),t.z+r*Math.sin(ph)*Math.cos(th));cam.lookAt(t)}
+const OV=()=>innerWidth/innerHeight<.9?125:78;const S={t:new T.Vector3(0,4,-2),r:OV(),th:.55,ph:1.02};let tw=null,auto=true;
+function put(){const{t,r,th,ph}=S;sc.fog.near=r;sc.fog.far=r*3;cam.position.set(t.x+r*Math.sin(ph)*Math.sin(th),t.y+r*Math.cos(ph),t.z+r*Math.sin(ph)*Math.cos(th));cam.lookAt(t)}
 function fly(t,r,th,ph){tw={f:{x:S.t.x,y:S.t.y,z:S.t.z,r:S.r,th:S.th,ph:S.ph},to:{x:t.x,y:t.y,z:t.z,r,th:th===undefined?S.th:th,ph},k:0};auto=false}
-function overview(){sel(-1);fly(new T.Vector3(14,4,4),92,.55,1.02);auto=true}
+function overview(){sel(-1);fly(new T.Vector3(0,4,-2),OV(),.55,1.02);auto=true}
 
 /* selection + panel */
 let selI=-1;
@@ -135,21 +131,21 @@ function sel(i){selI=i;const p=$("#info");
   const rr=RL.filter(r=>r[0]===i||r[1]===i);
   h+="<h3>Relationships</h3>"+rr.map(r=>`<code>${nm(CL[r[0]])} ${SY[r[2]]} ${nm(CL[r[1]])}</code>`).join("");
   p.innerHTML=h;p.hidden=false;
-  fly(new T.Vector3(c.pos[0],c.H/2,c.pos[1]),Math.max(28,c.H*3.2),S.th,1.2)}
+  const mob=innerWidth<761,rr2=Math.max(mob?34:28,c.H*3.2);fly(new T.Vector3(c.pos[0],c.H/2-(mob?rr2*.22:0),c.pos[1]),rr2,S.th,mob?1.1:1.2)}
 const nav=$("#nav");CL.forEach((c,i)=>{const b=document.createElement("button");b.innerHTML=`<i style="background:${c.cap||c.col}"></i>${nm(c)}`;b.onclick=()=>sel(i);nav.appendChild(b)});
 const ob=document.createElement("button");ob.textContent="Overview";ob.onclick=overview;nav.appendChild(ob);
-addEventListener("keydown",e=>{if(e.key==="Escape")overview()});
+addEventListener("keydown",e=>{if(e.key==="Escape")overview()});if(matchMedia("(pointer:coarse)").matches)$("#hint").textContent="Drag to orbit · two fingers to pan and zoom · tap a tower";
 
 /* input */
-const ptr=new Map();let moved=0,pd=0;const ray=new T.Raycaster(),mv=new T.Vector2();
-cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=0;auto=false;tw=null;if(ptr.size===2){const v=[...ptr.values()];pd=Math.hypot(v[0].x-v[1].x,v[0].y-v[1].y)}});
+const ptr=new Map();let moved=0,pd=0,mid=[0,0];const ray=new T.Raycaster(),mv=new T.Vector2();
+cv.addEventListener("pointerdown",e=>{$("#hint").hidden=true;cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=0;auto=false;tw=null;if(ptr.size===2){const v=[...ptr.values()];pd=Math.hypot(v[0].x-v[1].x,v[0].y-v[1].y);mid=[(v[0].x+v[1].x)/2,(v[0].y+v[1].y)/2]}});
 cv.addEventListener("pointermove",e=>{const p=ptr.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;moved+=Math.abs(dx)+Math.abs(dy);
-  if(ptr.size===2){p.x=e.clientX;p.y=e.clientY;const v=[...ptr.values()],d=Math.hypot(v[0].x-v[1].x,v[0].y-v[1].y);S.r=Math.max(12,Math.min(170,S.r*pd/d));pd=d;return}
+  if(ptr.size===2){p.x=e.clientX;p.y=e.clientY;const v=[...ptr.values()],d=Math.hypot(v[0].x-v[1].x,v[0].y-v[1].y),nm2=[(v[0].x+v[1].x)/2,(v[0].y+v[1].y)/2],k=S.r*.0022,rx=new T.Vector3(Math.cos(S.th),0,-Math.sin(S.th)),fw=new T.Vector3(-Math.sin(S.th),0,-Math.cos(S.th));S.t.addScaledVector(rx,-(nm2[0]-mid[0])*k).addScaledVector(fw,(nm2[1]-mid[1])*k);mid=nm2;if(d>0&&pd>0)S.r=Math.max(12,Math.min(220,S.r*pd/d));pd=d;return}
   if(e.shiftKey||e.buttons===2){const k=S.r*.0016,rx=new T.Vector3(Math.cos(S.th),0,-Math.sin(S.th)),fw=new T.Vector3(-Math.sin(S.th),0,-Math.cos(S.th));S.t.addScaledVector(rx,-dx*k).addScaledVector(fw,dy*k)}
   else{S.th-=dx*.006;S.ph=Math.max(.15,Math.min(1.5,S.ph-dy*.006))}p.x=e.clientX;p.y=e.clientY});
 const up_=e=>{ptr.delete(e.pointerId)};cv.addEventListener("pointercancel",up_);
 cv.addEventListener("pointerup",e=>{up_(e);if(moved<6){mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(mv,cam);const h=ray.intersectObjects(pick)[0];if(h)sel(CL.indexOf(h.object.userData.c));else overview()}});
-cv.addEventListener("wheel",e=>{e.preventDefault();S.r=Math.max(12,Math.min(170,S.r*(e.deltaY>0?1.1:.91)));auto=false},{passive:false});
+cv.addEventListener("wheel",e=>{e.preventDefault();S.r=Math.max(12,Math.min(220,S.r*(e.deltaY>0?1.1:.91)));auto=false},{passive:false});
 cv.addEventListener("contextmenu",e=>e.preventDefault());
 const K={};addEventListener("keydown",e=>K[e.code]=1);addEventListener("keyup",e=>K[e.code]=0);
 
